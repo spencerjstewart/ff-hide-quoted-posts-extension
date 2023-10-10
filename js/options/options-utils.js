@@ -2,6 +2,22 @@ import { IllegalArgumentError, KeyNotFoundError } from "../errors.js";
 
 export const DOMUtils = {
   renderHiddenUserList: function () {
+    const hiddenUsersList = document.getElementById("hidden-users");
+    let childNode = hiddenUsersList.firstChild;
+    while (childNode) {
+      let nextChild = childNode.nextSibling; // Save the next child reference before potentially removing the current child
+
+      if (
+        childNode.nodeType === Node.ELEMENT_NODE &&
+        !childNode.classList.contains("fade-out")
+      ) {
+        hiddenUsersList.removeChild(childNode);
+      }
+
+      childNode = nextChild; // Move to the next child
+    }
+
+    // Append the updated list of usernames
     StorageUtils.getHiddenUsernames()
       .then((hiddenUsernames) => {
         DOMUtils.appendUsernamesToHiddenUserList(hiddenUsernames);
@@ -16,6 +32,7 @@ export const DOMUtils = {
   },
   createHiddenUserLi: function (username) {
     const hiddenUserListItem = document.createElement("li");
+    hiddenUserListItem.classList.add("list-group-item");
 
     const hiddenUserSpan = document.createElement("span");
     hiddenUserSpan.classList.add("hidden-user");
@@ -23,7 +40,9 @@ export const DOMUtils = {
 
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove-btn");
-    removeBtn.textContent = "X";
+    const removeIcon = document.createElement("i");
+    removeIcon.classList.add("fas", "fa-trash");
+    removeBtn.appendChild(removeIcon);
 
     hiddenUserListItem.appendChild(hiddenUserSpan);
     hiddenUserListItem.appendChild(removeBtn);

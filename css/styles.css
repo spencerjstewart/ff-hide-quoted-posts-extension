@@ -1,0 +1,108 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    flex-shrink: 0; /* This ensures the footer doesn't shrink if there's a lot of content in the main area. */
+}
+
+footer p {
+    margin: 0 0;
+}
+
+main.container {
+    max-width: 600px;
+}
+
+/*header, footer {*/
+/*    background: linear-gradient(to right, #003ba2, #2984c7);*/
+/*}*/
+
+header h1 {
+    font-size: 2.5rem;
+}
+
+i {
+    margin-left: 5px;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+ul#hidden-users {
+    padding: 0;
+    margin: 0;
+}
+
+ul#hidden-users li {
+    font-size: 1.5rem;
+    list-style: none;
+    padding: 0.5rem;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1.5rem;  // Adjust size as needed
+color: #333;  // Adjust color as needed
+}
+
+.remove-btn:hover {
+    color: #555;  // A subtle hover effect
+}
+
+.remove-btn:focus {
+    outline: none;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation-name: fadeOut;
+    animation-timing-function: ease-out;
+    animation-duration: 0.5s;  // Adjust the duration as you see fit
+    animation-fill-mode: forwards;
+}
+
+#success-message {
+    margin-bottom: -15px;
+    text-align: center;
+    height: 0;
+    border: 0;
+    overflow: hidden;
+    padding: 0;
+    transition:
+            height 0.5s ease-in-out,
+            margin 0.5s ease-in-out,
+            padding 0.5s ease-in-out,
+            border 0.5s ease-in-out;
+}
+
+#success-message.show {
+    height: 50px; /* Adjust this value based on the content and desired appearance */
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+}
