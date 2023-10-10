@@ -1,7 +1,7 @@
 {
-  "name": "hide-posts-extension",
+  "name": "vbulletin-ignore-plus",
   "version": "1.0.0",
-  "description": "A browser extension designed for Freethought Forum by hiding quoted posts from ignored users and optionally replacing them with motivational quotes for more positivity and less negativity.",
+  "description": "Enhances vBulletin's native ignore feature by maintaining a list of ignored usernames and hiding their posts, even when not logged in, and even when other users quote their posts",
   "main": "options.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
