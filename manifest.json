@@ -5,7 +5,7 @@
   "description": "Enhances vBulletin's native ignore feature by maintaining a list of ignored usernames and hiding their posts, even when not logged in, and even when other users quote their posts.",
   "permissions": ["activeTab", "storage"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "js/background.js"
   },
   "action": {
     "default_popup": "popup.html"
@@ -14,7 +14,7 @@
   "content_scripts": [
     {
       "matches": ["*://www.freethought-forum.com/*"],
-      "js": ["content.js"],
+      "js": ["js/content.js"],
       "run_at": "document_end"
     }
   ]
