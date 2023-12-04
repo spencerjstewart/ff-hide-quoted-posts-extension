@@ -13,7 +13,7 @@
   "options_page": "options.html",
   "content_scripts": [
     {
-      "matches": ["*://www.freethought-forum.com/*"],
+      "matches": ["https://www.freethought-forum.com/*"],
       "js": ["js/content.js"],
       "run_at": "document_end"
     }
