@@ -65,7 +65,9 @@ export const StorageUtils = {
         if (data.hiddenUsernames) {
           resolve(data.hiddenUsernames);
         } else {
-          reject(new KeyNotFoundError("hiddenUsernames"));
+          chrome.storage.sync.set({ hiddenUsernames: [] }).then(() => {
+            resolve([]);
+          });
         }
       });
     });
