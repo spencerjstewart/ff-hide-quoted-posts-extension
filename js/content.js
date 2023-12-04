@@ -1,7 +1,7 @@
 const getUsernameFromStorage = function () {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get("hiddenUsernames", function (data) {
-      if (data && data.hiddenUsernames) {
+      if (data && data.hiddenUsernames && data.hiddenUsernames.length > 0) {
         console.log("data" + data);
         console.log(data.hiddenUsernames);
         resolve(data.hiddenUsernames[0]);
