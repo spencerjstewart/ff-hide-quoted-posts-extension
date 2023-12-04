@@ -1,29 +1,31 @@
-
 const getUsernameFromStorage = function () {
-    return new Promise((resolve, reject) => {
-        chrome.storage.sync.get('usernameToHide', function(data) {
-            if (data && data.usernameToHide) {
-                resolve(data.usernameToHide);
-            } else {
-                reject('No username found');
-            }
-        });
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get("hiddenUsernames", function (data) {
+      if (data && data.hiddenUsernames) {
+        console.log("data" + data);
+        console.log(data.hiddenUsernames);
+        resolve(data.hiddenUsernames[0]);
+      } else {
+        reject("No username found");
+      }
     });
+  });
 };
-
+console.log("Chrome extension script is active.");
 let customMessage;
-getUsernameFromStorage().then(usernameToHide => {
+getUsernameFromStorage()
+  .then((usernameToHide) => {
     if (!usernameToHide) {
-        throw new Error('No username found');
+      throw new Error("No username found");
     }
     customMessage = `Hidden post by ${usernameToHide}`;
     const normalizedUsernameToHide = usernameToHide.trim().toLowerCase();
     hidePostsByUsername(normalizedUsernameToHide);
-}).catch(err => {
+  })
+  .catch((err) => {
     console.log(err);
-    usernameToHide = '';
-});
-
+    usernameToHide = "";
+  });
 
 const stylingForHiddenPost = `
     .hidden-post-message {
@@ -50,54 +52,54 @@ const stylingForHiddenPost = `
 
 // Function to add custom styles
 function addCustomStyles(styles) {
-    const styleSheet = document.createElement("style");
-    styleSheet.type = "text/css";
-    styleSheet.innerText = styles;
-    document.head.appendChild(styleSheet);
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = styles;
+  document.head.appendChild(styleSheet);
 }
 
 function hidePostsByUsername(username) {
-    console.log('Chrome extension script is active.');
+  console.log("Chrome extension script is active.");
 
-    addCustomStyles(stylingForHiddenPost);
+  addCustomStyles(stylingForHiddenPost);
 
-    // First method (hiding posts based on quoted posts)
-    let postMessageDivs = document.querySelectorAll('div[id*="post_message"]');
-    for (let postMessageDiv of postMessageDivs) {
-        let quoteDivs = Array.from(postMessageDiv.querySelectorAll('div')).filter(div => div.textContent.includes('Quote:'));
-        for (let quoteDiv of quoteDivs) {
-            let userElems = quoteDiv.querySelectorAll('strong');
-            for (let userElem of userElems) {
-                if (userElem.textContent.trim().toLowerCase() === username) {
-                    let parentRow = userElem.closest('tr');
-                    if (parentRow) {
-                        parentRow.innerHTML = `<td colspan="2" class="hidden-post-message">${customMessage}</td>`;
-                    }
-                }
-            }
-        }
-    }
-
-    // Second method (hiding posts based on bigusername class)
-    let userElems = document.querySelectorAll('a.bigusername');
-    console.log(userElems);
-    for (let userElem of userElems) {
+  // First method (hiding posts based on quoted posts)
+  let postMessageDivs = document.querySelectorAll('div[id*="post_message"]');
+  for (let postMessageDiv of postMessageDivs) {
+    let quoteDivs = Array.from(postMessageDiv.querySelectorAll("div")).filter(
+      (div) => div.textContent.includes("Quote:"),
+    );
+    for (let quoteDiv of quoteDivs) {
+      let userElems = quoteDiv.querySelectorAll("strong");
+      for (let userElem of userElems) {
         if (userElem.textContent.trim().toLowerCase() === username) {
-            let firstTR = userElem.closest('tr');
-            if (firstTR) {
-                let parentOfFirstTR = firstTR.parentNode;
-                if (parentOfFirstTR) {
-                    let secondTR = parentOfFirstTR.closest('tr').nextElementSibling;
-                    if (secondTR) {
-                        let messageDiv = secondTR.querySelector('div[id*="post_message"]');
-                        if (messageDiv) {
-                            messageDiv.innerHTML = `<div class="hidden-post-message">${customMessage}</div>`;
-                        }
-                    }
-                }
-            }
+          let parentRow = userElem.closest("tr");
+          if (parentRow) {
+            parentRow.innerHTML = `<td colspan="2" class="hidden-post-message">${customMessage}</td>`;
+          }
         }
+      }
     }
+  }
+
+  // Second method (hiding posts based on bigusername class)
+  let userElems = document.querySelectorAll("a.bigusername");
+  console.log(userElems);
+  for (let userElem of userElems) {
+    if (userElem.textContent.trim().toLowerCase() === username) {
+      let firstTR = userElem.closest("tr");
+      if (firstTR) {
+        let parentOfFirstTR = firstTR.parentNode;
+        if (parentOfFirstTR) {
+          let secondTR = parentOfFirstTR.closest("tr").nextElementSibling;
+          if (secondTR) {
+            let messageDiv = secondTR.querySelector('div[id*="post_message"]');
+            if (messageDiv) {
+              messageDiv.innerHTML = `<div class="hidden-post-message">${customMessage}</div>`;
+            }
+          }
+        }
+      }
+    }
+  }
 }
-
-
